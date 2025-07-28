@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+.env/
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# VSCode settings
+.vscode/
+
+# Data files
+*.csv
+*.tsv
+*.data
+*.dat
+*.npz
+*.npy
+
+# Model files
+*.pkl
+*.h5
+*.joblib
+*.pt
+*.onnx
+*.sav
+
+# Logs and cache
+*.log
+logs/
+*.log.*
+.cache/
+*.cache
+*.gz
+
+# DS/ML experiment folders
+runs/
+wandb/
+mlruns/
+tensorboard/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git LFS tracked files (do not include in regular git)
+*.zip
+*.tar.gz
