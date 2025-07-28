@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>🏠 California House Price Prediction</h4>
+                    </div>
+                    <div class="card-body">
+                        <form action="/predict" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">Longitude</label>
+                                <input type="text" name="longitude" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Latitude</label>
+                                <input type="text" name="latitude" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Housing Median Age</label>
+                                <input type="text" name="housing_median_age" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Total Rooms</label>
+                                <input type="text" name="total_rooms" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Total Bedrooms</label>
+                                <input type="text" name="total_bedrooms" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Population</label>
+                                <input type="text" name="population" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Households</label>
+                                <input type="text" name="households" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Median Income</label>
+                                <input type="text" name="median_income" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ocean Proximity</label>
+                                <select name="ocean_proximity" class="form-select" required>
+                                    <option value="">Select...</option>
+                                    <option value="NEAR BAY">NEAR BAY</option>
+                                    <option value="INLAND">INLAND</option>
+                                    <option value="NEAR OCEAN">NEAR OCEAN</option>
+                                    <option value="ISLAND">ISLAND</option>
+                                    <option value="1H OCEAN">1H OCEAN</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100">Predict Price</button>
+                        </form>
+                        {% if prediction %}
+                        <div class="alert alert-info text-center mt-3">
+                            <strong>Predicted Median House Value: ${{ prediction }}</strong>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if feature_importance %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-secondary text-white text-center">
+                        <h5>📊 Feature Importance</h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="featureImportanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% if feature_importance %}
+    <script>
+        const ctx = document.getElementById('featureImportanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ feature_labels|safe }},
+                datasets: [{
+                    label: 'Feature Importance',
+                    data: {{ feature_importance|safe }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    {% endif %}
+</body>
+</html>
